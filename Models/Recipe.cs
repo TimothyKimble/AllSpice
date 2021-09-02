@@ -10,6 +10,9 @@ namespace AllSpice.Models
     public string CreatorId { get; set; }
     public Profile Creator { get; set; }
 
+    public string CreatedAt { get; set; }
+    public string UpdatedAt { get; set; }
+
 
 
   }

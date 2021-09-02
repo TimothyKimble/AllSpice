@@ -37,7 +37,6 @@ namespace AllSpice.Repositories
     internal Recipe Get(int id)
     {
       string sql = @"
-      
       SELECT
       a.*,
       r.*
@@ -51,15 +50,22 @@ namespace AllSpice.Repositories
         return recipe;
       }, new { id }, splitOn: "id").FirstOrDefault();
     }
+
+    internal void Delete(int id)
+    {
+      string sql = "DELETE FROM recipes WHERE id = @id LIMIT 1";
+      _db.Execute(sql, new { id });
+    }
+
     internal Recipe Create(Recipe newRecipe)
     {
       string sql = @"
 
       INSERT INTO recipes
-      (title, description, cookTime, prepTime, creatorId
+      (title, description, cookTime, prepTime, creatorId)
       VALUES
       (@Title, @Description, @CookTime, @PrepTime, @CreatorId);
-      SELECT_LAST_INSERT_ID();
+      SELECT LAST_INSERT_ID();
       ";
       int id = _db.ExecuteScalar<int>(sql, newRecipe);
       return Get(id);
